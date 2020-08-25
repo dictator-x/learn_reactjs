@@ -4,7 +4,36 @@ import CommentList from '../comment_list/comment_list'
 
 export default class App extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      comments: [
+        {
+          username: 'Messi',
+          content: 'Messi score'
+        },
+        {
+          username: 'Jordan',
+          content: 'Jordan score'
+        }
+      ]
+    }
+  }
+
+  addComment = (comment) => {
+    const { comments } = this.state
+    comments.unshift(comment)
+    this.setState({comments})
+  }
+
+  deleteComment = (index) => {
+    const { comments } = this.state
+    comments.splice(index, 1)
+    this.setState({comments})
+  }
+
   render() {
+    const { comments } = this.state
     return (
       <div>
         <header className="site-header jumbotron">
@@ -17,8 +46,8 @@ export default class App extends Component {
           </div>
         </header>
         <div className="container">
-            <CommentAdd />
-            <CommentList />
+          <CommentAdd addComment={this.addComment}/>
+          <CommentList deleteComment={this.deleteComment} comments={comments}/>
         </div>
       </div>
     )
