@@ -19,13 +19,37 @@
         this.state = {
           opacity: 1
         }
+        this.handleClick = this.handleClick.bind(this)
+      }
+      handleClick() {
+        console.log('click')
+        //this.setState({opacity:1})
+      }
+      componentDidMount() {
+        this.intervalId = setInterval(function() {
+          let { opacity } = this.state
+          opacity -= 0.1
+          if ( opacity <= 0 ) {
+            opacity = 1
+          }
+          this.setState({opacity})
+        }.bind(this), 200)
+      }
+
+      componentWillUnmount() {
+        clearInterval(this.intervalId)
+      }
+
+      distroyComponent() {
+        ReactDOM.unmountComponentAtNode(document.getElementById('test'))
       }
       render() {
+        console.log("render")
+        const { opacity } = this.state
         return (
-          const { opacity } = this.state
           <div>
             <h2 style={{opacity}}>{ this.props.msg }</h2>
-            <button>Goal</button>
+            <button onClick={ this.distroyComponent }>Goal</button>
           </div>
         )
       }
