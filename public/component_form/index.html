@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Hellow World </title>
+</head>
+<body>
+  <div id="example"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+  <script type="text/javascript" src="../js/prop-types.js"></script>
+
+  <script type="text/babel">
+    class LoginForm extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          password: ''
+        }
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+      }
+      handleSubmit(event) {
+        const username = this.username.value
+        const password = this.state.password
+        console.log(username)
+        console.log(password)
+        event.preventDefault()
+      }
+      handleChange(event) {
+        const password = event.target.value
+        this.setState({password})
+      }
+      render() {
+        return (
+        <form action="/test" onSubmit={ this.handleSubmit }>
+          username: <input type="text" ref={input => this.username = input}/><br/>
+          password: <input type="text" value={ this.state.password } onChange={ this.handleChange }/><br/>
+          <input type="submit" value="submit"/>
+        </form>
+        )
+      }
+    }
+    ReactDOM.render(<LoginForm/>, document.getElementById('example'))
+  </script>
+
+</body>
+</html>
