@@ -1,0 +1,21 @@
+{
+  "name": "learn_reactjs",
+  "version": "1.0.0",
+  "description": "a react app",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-dictator:dictator-x/learn_reactjs.git"
+  },
+  "author": "dictator-x",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "log4js": "^6.3.0",
+    "serve-index": "^1.9.1"
+  }
+}

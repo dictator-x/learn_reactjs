@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> Hellow World </title>
+</head>
+<body>
+  <div id="test"></div>
+
+  <script type="text/javascript" src="../js/react.development.js"></script>
+  <script type="text/javascript" src="../js/react-dom.development.js"></script>
+  <script type="text/javascript" src="../js/babel.min.js"></script>
+
+  <script type="text/babel">
+    class MyComponent extends React.Component {
+
+      constructor(props) {
+        super(props)
+        this.show = this.show.bind(this)
+      }
+      show() {
+        const input = this.refs.content
+        alert(input.value)
+        alert(this.input.value)
+      }
+      handleBlue(event) {
+        alert(event.target.value)
+      }
+      render() {
+        return (
+          <div>
+            <input type="text" ref="content"/><br/>
+            <input type="text" ref={(input) => this.input = input}/><br/>
+            <button onClick={this.show}>Input: </button><br/>
+            <input type="text" placeholder="insert" onBlur={this.handleBlue}/><br/>
+          </div>
+        )
+      }
+    }
+    ReactDOM.render(<MyComponent />, document.getElementById('test'))
+  </script>
+
+</body>
+</html>
