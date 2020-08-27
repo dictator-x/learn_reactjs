@@ -1,7 +1,7 @@
 import { ADD_COMMENT, DELETE_COMMENT, RECEIVE_COMMENT } from './action-types.jsx'
+import { combineReducers } from 'redux'
 
-export function comments(oldState=[], action) {
-
+function comments(oldState=[], action) {
   switch ( action.type ) {
   case ADD_COMMENT:
     return [action.data, ...oldState]
@@ -13,3 +13,13 @@ export function comments(oldState=[], action) {
     return oldState
   }
 }
+
+function counter(oldstate=0, action) {
+  console.log(action)
+  return oldstate
+}
+
+export default combineReducers({
+    counter,
+    comments
+})
