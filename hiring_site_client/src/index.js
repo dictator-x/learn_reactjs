@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import { Button } from 'antd-mobile'
+
+import 'antd-mobile/dist/antd-mobile.less'
 
 ReactDOM.render(
-  <button>learning aaa</button>,
+    <Button type="primary">Test</Button>,
   document.getElementById('root')
 );
