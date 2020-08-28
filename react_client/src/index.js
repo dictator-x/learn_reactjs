@@ -9,6 +9,8 @@ import Main from './containers/main/main.jsx'
 import Login from './containers/login/login.jsx'
 import 'antd-mobile/dist/antd-mobile.less'
 
+import './assets/css/index.less'
+
 ReactDOM.render((
     <Provider store ={store}>
       <HashRouter>

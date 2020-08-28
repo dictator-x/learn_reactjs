@@ -8,9 +8,12 @@ import {
   Button
 } from 'antd-mobile'
 
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { login } from '../../redux/actions.js'
 import Logo from '../../components/logo/logo.jsx'
 
-export default class Login extends Component {
+class Login extends Component {
 
   state = {
     username: '',
@@ -18,7 +21,7 @@ export default class Login extends Component {
   }
 
   loginIn = () => {
-    console.log(this.state)
+    this.props.login(this.state)
   }
 
   handleChange  = (key, val) => {
@@ -33,7 +36,11 @@ export default class Login extends Component {
   }
 
   render() {
-    const { accountType } = this.state
+
+    const { msg, redirectTo } = this.props.user
+    if ( redirectTo ) {
+      return <Redirect to={redirectTo} />
+    }
 
     return (
       <div>
@@ -41,6 +48,7 @@ export default class Login extends Component {
         <Logo />
         <WingBlank>
           <List>
+            { msg ? <div className='error-msg'>{msg}</div> : null }
             <InputItem onChange={val => {this.handleChange('username', val)}}>Username:</InputItem>
             <WhiteSpace />
             <InputItem type="password" onChange={val => {this.handleChange('password', val)}}>Password:</InputItem>
@@ -54,3 +62,12 @@ export default class Login extends Component {
     )
   }
 }
+
+export default connect(
+  state => ({
+    user: state.user
+  }),
+  {
+    login
+  }
+)(Login)

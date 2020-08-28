@@ -8,22 +8,25 @@ import {
   Radio,
   Button
 } from 'antd-mobile'
+import { Redirect } from 'react-router-dom'
 
 import Logo from '../../components/logo/logo.jsx'
+import { connect } from 'react-redux'
+import { register } from '../../redux/actions.js'
 
 const ListItem = List.Item
 
-export default class Register extends Component {
+class Register extends Component {
 
   state = {
     username: '',
     password: '',
     rePassword: '',
-    accountType: 'personal'
+    type: 'personal'
   }
 
   register = () => {
-    console.log(this.state)
+    this.props.register(this.state)
   }
 
   handleChange  = (key, val) => {
@@ -38,7 +41,11 @@ export default class Register extends Component {
   }
 
   render() {
-    const { accountType } = this.state
+    const { type } = this.state
+    const { msg, redirectTo } = this.props.user
+    if ( redirectTo ) {
+      return <Redirect to={redirectTo} />
+    }
 
     return (
       <div>
@@ -46,6 +53,7 @@ export default class Register extends Component {
         <Logo />
         <WingBlank>
           <List>
+            { msg ? <div className='error-msg'>{msg}</div> : null }
             <InputItem onChange={val => {this.handleChange('username', val)}}>Username:</InputItem>
             <WhiteSpace />
             <InputItem type="password" onChange={val => {this.handleChange('password', val)}}>Password:</InputItem>
@@ -55,8 +63,8 @@ export default class Register extends Component {
 
             <ListItem>
             <span>Account Type:</span>&nbsp;
-            <Radio checked={accountType === 'personal' ? true : false} onChange={() => this.handleChange('accountType', 'personal')}>personal</Radio>&nbsp;&nbsp;
-            <Radio checked={accountType === 'business' ? true : false} onChange={() => this.handleChange('accountType', 'business')}>business</Radio>&nbsp;&nbsp;
+            <Radio checked={type === 'personal' ? true : false} onChange={() => this.handleChange('type', 'personal')}>personal</Radio>&nbsp;&nbsp;
+            <Radio checked={type === 'business' ? true : false} onChange={() => this.handleChange('type', 'business')}>business</Radio>&nbsp;&nbsp;
             </ListItem>
             <WhiteSpace />
             <Button type='primary' onClick={this.register}>Sign Up</Button>
@@ -68,3 +76,12 @@ export default class Register extends Component {
     )
   }
 }
+
+export default connect(
+  state => ({
+    user: state.user
+  }),
+  {
+    register
+  }
+)(Register)
