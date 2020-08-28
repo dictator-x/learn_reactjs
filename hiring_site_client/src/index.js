@@ -7,6 +7,7 @@ import store from './redux/store.js'
 import Register from './containers/register/register.jsx'
 import Main from './containers/main/main.jsx'
 import Login from './containers/login/login.jsx'
+import 'antd-mobile/dist/antd-mobile.less'
 
 ReactDOM.render((
     <Provider store ={store}>
