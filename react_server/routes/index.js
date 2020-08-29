@@ -65,6 +65,10 @@ router.get('/user', function(req, res) {
   }
 
   UserModel.findOne({_id: userid}, filter, function(error, user) {
+    if ( ! user ) {
+      res.clearCookie('userid')
+      res.send({ code: 1, data: 'please login' })
+    }
     res.send({code: 0, data: user})
   })
 })
