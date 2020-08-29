@@ -9,15 +9,6 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
 
-// router.post('/register', function(req, res, next) {
-//   const { username, password } = req.body
-//   if ( username === 'admin' ) {
-//     res.send({code: 1, msg: 'username exits'})
-//   } else {
-//     res.send({code: 0, data: {id: '11', username, password}})
-//   }
-// })
-
 router.post('/register', function(req, res, next){
   const { username, password, type } = req.body
 
@@ -45,6 +36,36 @@ router.post('/login', function(req, res, next) {
       res.cookie('userid', user._id, {maxAge: 1000*60*60*24*7})
       res.send({code: 0, data: user})
     }
+  })
+})
+
+router.post('/update', function(req, res, next) {
+  const userid = req.cookies.userid
+  if ( ! userid ) {
+    return res.send({ code: 1, data: 'please login' })
+  }
+
+  const user = req.body
+  UserModel.findByIdAndUpdate({_id: userid}, user, function(error, oldUser){
+    if ( ! oldUser ) {
+      res.clearCookie('userid')
+      return res.send({ code: 1, data: 'please login' })
+    } else {
+      const { _id, username, type } = oldUser
+      return res.send({code: 0, data: Object.assign(user, {_id, username, type})})
+    }
+  })
+})
+
+
+router.get('/user', function(req, res) {
+  const userid = req.cookies.userid
+  if ( ! userid ) {
+    return res.send({ code: 1, data: 'please login' })
+  }
+
+  UserModel.findOne({_id: userid}, filter, function(error, user) {
+    res.send({code: 0, data: user})
   })
 })
 
