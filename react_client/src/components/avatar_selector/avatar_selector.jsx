@@ -13,8 +13,8 @@ export default class AvatarSelector extends Component {
     this.headerList = []
     for ( let i = props.offset ; i < (props.offset + props.length) ; i++ ) {
       this.headerList.push({
-        text: 'cat' + i,
-        icon: require(`./images/${(i+'-cat.svg').padStart(11, '0')}`)
+          text: (i+'-cat').padStart(7, '0'),
+        icon: require(`../../assets/images/${(i+'-cat.svg').padStart(11, '0')}`)
       })
     }
   }
@@ -28,6 +28,7 @@ export default class AvatarSelector extends Component {
   }
 
   handleClick = ({text, icon}) => {
+    console.log(text)
     this.setState({icon})
     this.props.setAvatar(text)
   }

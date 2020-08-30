@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Cookies from 'js-cookie'
+import { NavBar } from 'antd-mobile'
 
 import BusinessInfo from '../business_info/business_info.jsx'
 import PersonalInfo from '../personal_info/personal_info.jsx'
@@ -10,6 +11,7 @@ import Person from '../person/person.jsx'
 import Personal from '../personal/personal.jsx'
 import Message from '../message/message.jsx'
 import NotFound from '../../components/not_found/not_found.jsx'
+import NavFooter from '../../components/nav_footer/nav_footer.jsx'
 
 import { getRedirectTo } from '../../utils'
 import { getUser } from '../../redux/actions.js'
@@ -21,16 +23,16 @@ class Main extends Component {
     {
       path: '/person',
       component: Person,
-      title: 'Person List',
-      icon: 'person',
-      text: 'person'
+      title: 'Business List',
+      icon: 'business',
+      text: 'business'
     },
     {
       path: '/business',
       component: Business,
-      title: 'Business List',
-      icon: 'business',
-      text: 'business'
+      title: 'Person List',
+      icon: 'person',
+      text: 'person'
     },
     {
       path: '/message',
@@ -73,13 +75,30 @@ class Main extends Component {
       }
     }
 
+    const { navList } = this
+    const path = this.props.location.pathname
+    const currentNav = navList.find(nav => nav.path === path)
+
+    if ( currentNav ) {
+      if ( user.type === 'business' ) {
+        navList[0].hide = true
+      } else {
+        navList[1].hide = true
+      }
+    }
+
     return (
       <div>
+        { currentNav  ? <NavBar>{currentNav.title}</NavBar> : null }
         <Switch>
+          {
+            navList.map((nav, index) => <Route key={index} path={nav.path} component={nav.component}/>)
+          }
           <Route path='/personalinfo' component={PersonalInfo} />
           <Route path='/businessinfo' component={BusinessInfo} />
           <Route component={NotFound} />
         </Switch>
+        { currentNav  ? <NavFooter navList={navList} /> : null }
       </div>
     )
   }

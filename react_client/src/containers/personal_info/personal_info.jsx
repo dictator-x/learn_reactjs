@@ -21,7 +21,7 @@ class PersonalInfo extends Component {
     address: ''
   }
 
-  setAvatar = (avatar) => {
+  setAvatar = (avatar, a) => {
     this.setState({avatar})
   }
 

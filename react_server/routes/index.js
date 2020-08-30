@@ -46,7 +46,7 @@ router.post('/update', function(req, res, next) {
   }
 
   const user = req.body
-  UserModel.findByIdAndUpdate({_id: userid}, user, function(error, oldUser){
+  UserModel.findOneAndUpdate({_id: userid}, user, function(error, oldUser){
     if ( ! oldUser ) {
       res.clearCookie('userid')
       return res.send({ code: 1, data: 'please login' })
