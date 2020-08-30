@@ -1,19 +1,40 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Cookies from 'js-cookie'
+import { resetUser } from '../../redux/actions.js'
+
 import {
   Result,
   List,
   WhiteSpace,
-  Button
+  Button,
+  Modal
 } from 'antd-mobile'
 
 const Item = List.Item
 const Brief = Item.Brief
 
 class Personal extends Component {
+
+  logout = () => {
+    Modal.alert('Logout', 'Confirm to Logout?', [
+      {
+        text: 'Cancel',
+        onPress: () => {}
+      },
+      {
+        text: 'Confirm',
+        onPress: () => {
+          console.log('aa')
+          Cookies.remove('userid')
+          this.props.resetUser()
+        }
+      }
+    ])
+  }
+
   render() {
     const { user } = this.props
-    console.log(user)
 
     return (
       <div>
@@ -32,7 +53,7 @@ class Personal extends Component {
         </List>
         <WhiteSpace />
         <List>
-          <Button type='warning'>Logout</Button>
+          <Button type='warning' onClick={this.logout}>Logout</Button>
         </List>
       </div>
     )
@@ -44,6 +65,6 @@ export default connect(
     user: state.user
   }),
   {
-
+    resetUser
   }
 )(Personal)

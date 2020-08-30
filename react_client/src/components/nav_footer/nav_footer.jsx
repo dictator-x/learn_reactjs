@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 
 import { TabBar } from 'antd-mobile'
-import './nav_footer.less'
 
 const Item = TabBar.Item
 
