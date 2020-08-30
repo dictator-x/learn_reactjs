@@ -8,7 +8,7 @@ export default function ajax(url='', data={}, method='GET') {
     })
 
     if ( dataStr !== '' ) {
-      dataStr = dataStr.substring(0, data.lastIndexOf('&'))
+      dataStr = dataStr.substring(0, dataStr.lastIndexOf('&'))
       url = url + '?' + dataStr
     }
     return axios.get(url)

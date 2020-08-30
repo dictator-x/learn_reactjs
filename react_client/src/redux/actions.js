@@ -2,14 +2,16 @@ import {
   reqRegister,
   reqLogin,
   reqUpdateUser,
-  reqUser
+  reqUser,
+  reqUserList
 } from '../api'
 
 import {
   AUTH_SUCCESS,
   ERROR_MSG,
   RECEIVE_USER,
-  RESET_USER
+  RESET_USER,
+  RECEIVE_USER_LIST
 } from './action-types.js'
 
 
@@ -17,6 +19,7 @@ const authSuccess = (user) => ({type: AUTH_SUCCESS, data: user})
 const errorMsg = (msg) => ({type: ERROR_MSG, data: msg})
 const receiveUser = (user) => ({type: RECEIVE_USER, data: user})
 export const resetUser = (msg) => ({type: RESET_USER, data: msg})
+const receiveUserList = (userList) => ({type: RECEIVE_USER_LIST, data: userList})
 
 export const register = (user) => {
   const { username, password, rePassword, type } = user
@@ -86,5 +89,14 @@ export const getUser = () => {
     } else {
       dispatch(resetUser(result.data))
     }
+  }
+}
+
+export const getUserList = (type) => {
+  return async dispatch => {
+    const response = await reqUserList(type)
+    const result = response.data
+    //TODO: handle error case.
+    dispatch(receiveUserList(result.data))
   }
 }

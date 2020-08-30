@@ -25,7 +25,6 @@ class Personal extends Component {
       {
         text: 'Confirm',
         onPress: () => {
-          console.log('aa')
           Cookies.remove('userid')
           this.props.resetUser()
         }
@@ -37,7 +36,7 @@ class Personal extends Component {
     const { user } = this.props
 
     return (
-      <div>
+      <div style={{ marginBottom: 50, marginTop: 50 }}>
         <Result
         img = {<img src={require(`../../assets/images/${user.avatar}.svg`)} style={{width: 50}} alt="header" />}
         title = ''
