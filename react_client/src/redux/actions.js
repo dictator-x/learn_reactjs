@@ -15,7 +15,8 @@ import {
   RESET_USER,
   RECEIVE_USER_LIST,
   RECEIVE_MSG,
-  RECEIVE_MSG_LIST
+  RECEIVE_MSG_LIST,
+  MSG_READ
 } from './action-types.js'
 
 import io from 'socket.io-client'
@@ -26,7 +27,7 @@ async function getMsgList(dispatch, userid) {
   const result = response.data
   if ( result.code === 0 ) {
     const { users, chatMsgs } = result.data
-    dispatch(receiveMsgList({users, chatMsgs}))
+    dispatch(receiveMsgList({users, chatMsgs, userid}))
 
   }
 }
@@ -39,7 +40,7 @@ function initIO(dispatch, userid) {
     io.socket.on('receiveMsg', function(chatMsg) {
       console.log('receive from server: ', chatMsg)
       if ( userid === chatMsg.from || userid === chatMsg.to ) {
-        dispatch(receiveMsg(chatMsg))
+        dispatch(receiveMsg(chatMsg, userid))
       }
     })
   }
@@ -58,8 +59,9 @@ const errorMsg = (msg) => ({type: ERROR_MSG, data: msg})
 const receiveUser = (user) => ({type: RECEIVE_USER, data: user})
 export const resetUser = (msg) => ({type: RESET_USER, data: msg})
 const receiveUserList = (userList) => ({type: RECEIVE_USER_LIST, data: userList})
-const receiveMsgList = ({users, chatMsgs}) => ({type: RECEIVE_MSG_LIST, data: {users, chatMsgs}})
-const receiveMsg = (chatMsg) => ({type: RECEIVE_MSG, data: chatMsg})
+const receiveMsgList = ({users, chatMsgs, userid}) => ({type: RECEIVE_MSG_LIST, data: {users, chatMsgs, userid}})
+const receiveMsg = (chatMsg, userid) => ({type: RECEIVE_MSG, data: { chatMsg, userid }})
+const msgRead = (count, from, to) => ({type: MSG_READ, data: {count, from, to}})
 
 export const register = (user) => {
   const { username, password, rePassword, type } = user
@@ -144,4 +146,13 @@ export const getUserList = (type) => {
   }
 }
 
+export const readMsg = (targetId, to) => {
+  return async dispatch => {
+    const response = await reqReadMsg(targetId)
+    const result = response.data
+    if ( result.code === 0 ) {
+      dispatch(msgRead(result.data, targetId , to))
+    }
+  }
+}
 

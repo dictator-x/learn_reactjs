@@ -9,7 +9,10 @@ import {
   Icon
 } from 'antd-mobile'
 
-import { sendMsg } from '../../redux/actions.js'
+import {
+  sendMsg,
+  readMsg
+} from '../../redux/actions.js'
 
 const Item = List.Item
 
@@ -41,11 +44,17 @@ class Chat extends Component {
     ]
 
     this.emojis = emojis.map(emoji => ({text: emoji}))
-    console.log(this.emojis)
   }
 
   componentDidMount() {
     scroll.scrollTo(document.body.scrollHeight)
+  }
+
+  componentWillUnmount() {
+    const targetId = this.props.match.params.userid
+    const myId = this.props.user._id
+    this.props.readMsg(targetId, myId)
+
   }
 
   componentDidUpdate() {
@@ -148,6 +157,7 @@ export default connect(
     chat: state.chat
   }),
   {
-    sendMsg
+    sendMsg,
+    readMsg
   }
 )(Chat)
