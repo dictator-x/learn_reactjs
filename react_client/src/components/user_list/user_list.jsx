@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {
@@ -12,7 +13,7 @@ import './user_list.less'
 const Header = Card.Header
 const Body = Card.Body
 
-export default class UserList extends Component {
+class UserList extends Component {
 
   static propTypes = {
     userList: PropTypes.array.isRequired
@@ -27,7 +28,7 @@ export default class UserList extends Component {
         userList.map(user => (
           <div key={ user._id }>
             <WhiteSpace />
-            <Card>
+            <Card onClick={ () => this.props.history.push(`/chat/${user._id}`) }>
               <Header
                 thumb = { require(`../../assets/images/${user.avatar}.svg`) }
                 extra = { user.username }
@@ -46,3 +47,5 @@ export default class UserList extends Component {
     )
   }
 }
+
+export default withRouter(UserList)

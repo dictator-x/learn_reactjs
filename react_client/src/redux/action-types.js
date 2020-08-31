@@ -1,6 +1,9 @@
 export const AUTH_SUCCESS = 'AUTH_SUCCESS'
 export const AUTH_FAIL = 'AUTH_FAIL'
 export const ERROR_MSG = 'ERROR_MSG'
-export const RECEIVE_USER = 'receive_user'
-export const RESET_USER = 'reset_user'
-export const RECEIVE_USER_LIST = 'receive_user_list'
+export const RECEIVE_USER = 'RECEIVE_USER'
+export const RESET_USER = 'RESET_USER'
+export const RECEIVE_USER_LIST = 'RECEIVE_USER_LIST'
+export const RECEIVE_MSG_LIST = 'RECEIVE_MSG_LIST'
+export const RECEIVE_MSG = 'RECEIVE_MSG'
+

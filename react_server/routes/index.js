@@ -1,7 +1,7 @@
 const express = require('express');
 const md5 = require('blueimp-md5')
 const router = express.Router();
-const { UserModel } = require('../db/models.js')
+const { UserModel, ChatModel } = require('../db/models.js')
 const filter = { password: 0, __v: 0}
 
 /* GET home page. */
@@ -80,4 +80,30 @@ router.get('/userlist', function(req, res){
   })
 })
 
+router.get('/msglist', function(req, res) {
+  const userid = req.cookies.userid
+
+  UserModel.find(function(err, userDocs) {
+
+
+    const users = userDocs.reduce((users, user) => {
+      users[user._id] = { username: user.username, avatar: user.avatar }
+      return users
+    }, {})
+
+    ChatModel.find({'$or': [{from: userid}, {to: userid}]}, filter, function(err, chatMsgs) {
+      res.send({code: 0, data: {users, chatMsgs}})
+    })
+  })
+})
+
+router.post('/readmsg', function(req, res){
+  const from = req.body.from
+  const to = req.cookies.userid
+
+  ChatModel.update({from, to, read: false}, {read: true}, {multi: true}, function(err, doc) {
+    console.log('/readmsg', doc)
+    res.send({code: 0, data: doc.nModified})
+  })
+})
 module.exports = router;
