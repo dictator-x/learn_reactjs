@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 import {
   NavBar,
   List,
-  InputItem
+  InputItem,
+  Grid,
+  Icon
 } from 'antd-mobile'
 
 import { sendMsg } from '../../redux/actions.js'
@@ -14,7 +16,8 @@ const Item = List.Item
 class Chat extends Component {
 
   state = {
-    content: ''
+    content: '',
+    isShow: false
   }
 
   handleSend = () => {
@@ -24,12 +27,40 @@ class Chat extends Component {
 
     if ( content ) {
       this.props.sendMsg({from, to, content})
-      this.setState({content: ''})
+      this.setState({content: '', isShow: false})
     }
   }
 
+  componentWillMount() {
+    const emojis = [
+      '😀','😀', '😀', '😀', '😀', '😀', '😀', '😀',
+      '😀','😀', '😀', '😀', '😀', '😀', '😀', '😀',
+      '😀','😀', '😀', '😀', '😀', '😀', '😀', '😀',
+      '😀','😀', '😀', '😀', '😀', '😀', '😀', '😀',
+      '😀','😀', '😀', '😀', '😀', '😀', '😀', '😀',
+    ]
+
+    this.emojis = emojis.map(emoji => ({text: emoji}))
+    console.log(this.emojis)
+  }
+
   componentDidUpdate() {
-    scroll.scrollToBottom();
+    //TODO: fix scroll bug
+    // console.log('aaa', window.document.getElementById('chat-page'))
+    // scroll.scrollTo(10000);
+    //
+    // window.scrollTo(1000, 1000);
+  }
+
+  toggleShow = () => {
+    console.log('aa')
+    const isShow = !this.state.isShow
+    this.setState({isShow})
+    if ( isShow ) {
+      setTimeout(() => {
+        window.dispatchEvent(new Event('resize'))
+      }, 0)
+    }
   }
 
   render() {
@@ -47,7 +78,14 @@ class Chat extends Component {
 
     return (
       <div id="chat-page">
-        <NavBar className='sticky_header'>iaa</NavBar>
+        <NavBar
+          icon = { <Icon type='left'/> }
+          className = 'sticky_header'
+          onLeftClick = { () => this.props.history.goBack() }
+
+        >
+          {users[targetId].username}
+        </NavBar>
         <List style={{ marginBottom: 50, marginTop: 50 }}>
           {
             msgs.map(msg => {
@@ -57,7 +95,7 @@ class Chat extends Component {
                     key = { msg._id }
                     thumb = { targetIcon }
                   >
-                  { msg.content }
+                  { msg.content }🙈
                   </Item>
                 )
               } else {
@@ -76,13 +114,28 @@ class Chat extends Component {
         </List>
         <div className="am-tab-bar">
           <InputItem
+            onFocus={() => this.setState({isShow: false})}
             placeholder="New Message"
             value = { this.state.content }
             onChange = { val => this.setState({ content: val }) }
             extra = {
-              <span onClick={this.handleSend}>send</span>
+              <span>
+                <span onClick={ this.toggleShow } style={{marginRight:5}}>😍</span>
+                <span onClick={this.handleSend}>send</span>
+              </span>
             }
           />
+          { this.state.isShow ? (
+            <Grid
+              data = { this.emojis }
+              columnNum = { 8 }
+              carouselMaxRow = { 4 }
+              isCarousel = { true }
+              onClick = {(item) =>{
+                this.setState({content: this.state.content + item.text})
+              }}
+            />
+          ) : null }
         </div>
       </div>
     )
