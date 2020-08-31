@@ -7,6 +7,7 @@ import {
   WingBlank,
   WhiteSpace
 } from 'antd-mobile'
+import QueueAnim from 'rc-queue-anim'
 
 import './user_list.less'
 
@@ -24,25 +25,27 @@ class UserList extends Component {
 
     return (
       <WingBlank style={{ marginBottom: 50, marginTop: 50 }}>
-      {
-        userList.map(user => (
-          <div key={ user._id }>
-            <WhiteSpace />
-            <Card onClick={ () => this.props.history.push(`/chat/${user._id}`) }>
+      <QueueAnim type="scale" delay={77}>
+        {
+          userList.map(user => (
+              <div key={ user._id }>
+              <WhiteSpace />
+              <Card onClick={ () => this.props.history.push(`/chat/${user._id}`) }>
               <Header
-                thumb = { require(`../../assets/images/${user.avatar}.svg`) }
-                extra = { user.username }
+              thumb = { require(`../../assets/images/${user.avatar}.svg`) }
+              extra = { user.username }
               />
               <Body>
-                <div>Email: { user.email }</div>
-                <div>Name: { user.name }</div>
-                <div>Phone: { user.phone }</div>
-                { user.address ? <div>Address: { user.address }</div> : null }
+              <div>Email: { user.email }</div>
+              <div>Name: { user.name }</div>
+              <div>Phone: { user.phone }</div>
+              { user.address ? <div>Address: { user.address }</div> : null }
               </Body>
-            </Card>
-          </div>
-        ))
-      }
+              </Card>
+              </div>
+          ))
+        }
+      </QueueAnim>
       </WingBlank>
     )
   }

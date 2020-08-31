@@ -4,6 +4,7 @@ import {
   List,
   Badge
 } from 'antd-mobile'
+import QueueAnim from 'rc-queue-anim'
 
 const Item = List.Item
 const Brief = Item.Brief
@@ -51,25 +52,27 @@ class Message extends Component {
 
     return (
       <List style={{marginTop: 50, marginBottom: 50}}>
+      <QueueAnim type="left" delay={77}>
       {
         lastMsgs.map(msg => {
-          const targetUser = msg.to === user._id ? users[msg.from] : users[msg.to]
-          const targetUserId = msg.to === user._id ?  msg.from : msg.to
+            const targetUser = msg.to === user._id ? users[msg.from] : users[msg.to]
+            const targetUserId = msg.to === user._id ?  msg.from : msg.to
 
-          return (
-            <Item
-            key = { msg._id }
-            extra = { <Badge text={ msg.unReadCount } /> }
-            thumb = { targetUser.avatar ? require(`../../assets/images/${targetUser.avatar}.svg`) : null }
-            arrow = 'horizontal'
-            onClick={ () => this.props.history.push(`/chat/${targetUserId}`) }
-            >
-            {msg.content}
-            <Brief>{targetUser.username}</Brief>
-            </Item>
-          )
+            return (
+              <Item
+              key = { msg._id }
+              extra = { <Badge text={ msg.unReadCount } /> }
+              thumb = { targetUser.avatar ? require(`../../assets/images/${targetUser.avatar}.svg`) : null }
+              arrow = 'horizontal'
+              onClick={ () => this.props.history.push(`/chat/${targetUserId}`) }
+              >
+              {msg.content}
+              <Brief>{targetUser.username}</Brief>
+              </Item>
+            )
         })
       }
+      </QueueAnim>
       </List>
     )
   }

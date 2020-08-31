@@ -96,30 +96,30 @@ class Chat extends Component {
           {users[targetId].username}
         </NavBar>
         <List style={{ marginBottom: 50, marginTop: 50 }}>
-          {
-            msgs.map(msg => {
-              if ( myId === msg.to ) {
-                return (
-                  <Item
-                    key = { msg._id }
-                    thumb = { targetIcon }
-                  >
-                  { msg.content }
-                  </Item>
-                )
-              } else {
-                return (
-                  <Item
-                    key = { msg._id }
-                    className = 'chat-me'
-                    extra = 'me'
-                  >
-                    { msg.content }
-                  </Item>
-                )
-              }
-            })
-          }
+            {
+              msgs.map(msg => {
+                  if ( myId === msg.to ) {
+                    return (
+                      <Item
+                      key = { msg._id }
+                      thumb = { targetIcon }
+                      >
+                      { msg.content }
+                      </Item>
+                    )
+                  } else {
+                    return (
+                      <Item
+                      key = { msg._id }
+                      className = 'chat-me'
+                      extra = 'me'
+                      >
+                      { msg.content }
+                      </Item>
+                    )
+                  }
+              })
+            }
         </List>
         <div className="am-tab-bar">
           <InputItem
@@ -129,7 +129,7 @@ class Chat extends Component {
             onChange = { val => this.setState({ content: val }) }
             extra = {
               <span>
-                <span onClick={ this.toggleShow } style={{marginRight:5}}>😍</span>
+                <span onClick={ this.toggleShow } style={{marginRight:5}} role="img" aria-label="sheep">😍</span>
                 <span onClick={this.handleSend}>send</span>
               </span>
             }
