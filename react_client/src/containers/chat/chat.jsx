@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { animateScroll as scroll } from 'react-scroll';
 import { connect } from 'react-redux'
 import {
   NavBar,
@@ -25,6 +26,10 @@ class Chat extends Component {
       this.props.sendMsg({from, to, content})
       this.setState({content: ''})
     }
+  }
+
+  componentDidUpdate() {
+    scroll.scrollToBottom();
   }
 
   render() {
