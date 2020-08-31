@@ -34,6 +34,7 @@ async function getMsgList(dispatch, userid) {
 function initIO(dispatch, userid) {
   if ( ! io.socket ) {
     const URL = 'ws://localhost:8080'
+    // const URL = 'ws://192.168.1.219:8080'
     io.socket = io(URL)
     io.socket.on('receiveMsg', function(chatMsg) {
       console.log('receive from server: ', chatMsg)
