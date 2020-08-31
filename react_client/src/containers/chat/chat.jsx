@@ -44,12 +44,12 @@ class Chat extends Component {
     console.log(this.emojis)
   }
 
+  componentDidMount() {
+    scroll.scrollTo(document.body.scrollHeight)
+  }
+
   componentDidUpdate() {
-    //TODO: fix scroll bug
-    // console.log('aaa', window.document.getElementById('chat-page'))
-    // scroll.scrollTo(10000);
-    //
-    // window.scrollTo(1000, 1000);
+    window.scroll(0, document.body.scrollHeight)
   }
 
   toggleShow = () => {
@@ -95,7 +95,7 @@ class Chat extends Component {
                     key = { msg._id }
                     thumb = { targetIcon }
                   >
-                  { msg.content }🙈
+                  { msg.content }
                   </Item>
                 )
               } else {
